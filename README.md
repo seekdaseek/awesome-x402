@@ -62,6 +62,7 @@ Core resources from the x402 protocol maintainers.
 - [Protocol Specifications](https://github.com/coinbase/x402/tree/main/specs) - Detailed technical specifications.
   - [Payment Schemes](https://github.com/coinbase/x402/tree/main/specs/schemes) - Different payment flow types.
   - [EVM Implementation](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_evm.md) - Ethereum Virtual Machine specifics.
+  - [AVM Implementation](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_algo.md) - Algorand Virtual Machine specifics.
 
 ## 📖 Protocol Documentation
 
@@ -171,6 +172,7 @@ Real companies using x402 in production with proven scale and transaction volume
 | Ethereum      | Production  | Cloudflare                 | Deferred        | Enterprise DApps          |
 | Solana        | Production  | Community                  | Instant (<1s)   | High-frequency trading    |
 | BNB Chain     | Production  | Pieverse                   | Instant (2s)    | Gaming, NFTs              |
+| Algorand      | Production  | GoPlausible                | Instant (<3s)   | Agent data APIs           |
 | Radius        | Production  | Community                  | Instant (<1s)   | Micropayments             |
 
 ### Data & Social APIs
@@ -185,6 +187,8 @@ Real companies using x402 in production with proven scale and transaction volume
 - [MiroShark](https://github.com/aaronjmars/MiroShark) - Universal swarm-intelligence engine exposed as a paid API: POST a scenario to the `/x402/run` surface and hundreds of grounded LLM personas simulate Twitter, Reddit, and a prediction market hour-by-hour, returning an analytical report. USDC on Base via x402. ([GitHub](https://github.com/aaronjmars/MiroShark))
 - [wrapper-agency APIs](https://fx.wrapper-agency.com) - Suite of 8 pay-per-call utility APIs settled in USDC on Base via x402 (free tier + one key for all): historical FX rates, color conversion, timezone/DST, fake/mock data, cron explainer, QR codes, data-format conversion, and encode/hash. ([FX](https://fx.wrapper-agency.com)) ([Color](https://color.wrapper-agency.com)) ([Timezone](https://tz.wrapper-agency.com)) ([Mock data](https://mock.wrapper-agency.com)) ([Cron](https://cron.wrapper-agency.com)) ([QR](https://qr.wrapper-agency.com)) ([Data format](https://data.wrapper-agency.com)) ([Encode](https://encode.wrapper-agency.com))
 - [Crest x402 Data](https://data.crestsystems.ai) - x402 agent profiling plus crypto market data. Profile any x402 buyer or EVM wallet (whale score, behavior cluster, x402 spend graph, risk), plus prices, gas, DeFi, derivatives, NFTs, and DEX pairs. $0.002-$0.90 USDC on Base via Coinbase CDP facilitator, no API keys. ([Agent Card](https://data.crestsystems.ai/.well-known/agent.json) | [llms.txt](https://data.crestsystems.ai/llms.txt) | [l402-services](https://data.crestsystems.ai/.well-known/l402-services))
+- [AgentFeed on Algorand](https://algo.ochinimus.app/catalog) - Cross-exchange liquidation tape for trading agents. Volume by symbol split long/short, cascade concentration scoring, symbol universe, and per-exchange reporting integrity. 703 symbols, 51K rows/day from Binance, Bybit and OKX. $0.02-$0.10 USDC per call on Algorand mainnet. Every response reports measured, absent, or unmeasured; unmeasured returns 503 and is never billed. ([MCP](https://www.npmjs.com/package/@seekdaseek/agentfeed-algo)) ([Discovery](https://algo.ochinimus.app/.well-known/x402)) ([GitHub](https://github.com/seekdaseek/agentfeed-algo))
+
 - [Pyrimid](https://pyrimid.ai) - Agent commerce protocol for x402-style USDC payments on Base. Includes on-chain vendor/product registry, payment router, affiliate attribution, MCP endpoint, and live catalog API for agent-discoverable paid services. Current mainnet proof: 3 vendors, 8 on-chain products, 4 routed test payments. ([Catalog](https://pyrimid.ai/api/v1/catalog)) ([MCP](https://pyrimid.ai/api/mcp)) ([Skill](https://pyrimid.ai/skill.md))
 - **[Polybot Arb Intelligence](https://github.com/packrvnner/polybot-arb-api)** — Real-time cross-platform prediction market arb data (Polymarket+Kalshi+Myriad). x402 USDC on Base. [Live API](https://governments-ruth-distribution-breaks.trycloudflare.com/free/market-pulse)
 
@@ -262,6 +266,8 @@ Client libraries for making x402 payments.
 ### JavaScript/TypeScript
 
 **HTTP Clients**
+
+- [@x402/avm](https://www.npmjs.com/package/@x402/avm) - Algorand mechanism package. CAIP-2 network identifiers, USDC ASA config, and the exact scheme for client, server and facilitator. ([Docs](https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-documentation/README.md))
 - [cipher-x402-client](https://github.com/cryptomotifs/cipher-x402-client) - Lightweight TS/JS x402 v2 client. Zero runtime deps, native fetch, ESM + CJS dual build. 34 tests, 89% coverage. Node 18+ / browsers. Optional `ethers` peer dep for signing.
 - [x402-got](https://www.npmjs.com/package/x402-got) - Got HTTP client integration.
 
@@ -344,6 +350,7 @@ Payment verification and settlement services.
 - [Voidly Pay](https://api.voidly.ai/v1/pay) - USDC-backed agent-to-agent payment rail on Base mainnet. Source-verified vault ([0xb592…1c12](https://basescan.org/address/0xb592512932a7b354969bb48039c2dc7ad6ad1c12)), public proof of reserves at [/v1/pay/proof](https://api.voidly.ai/v1/pay/proof), facilitator-signed quotes (anti-MitM). Ed25519-signed envelopes; 28-tool MCP server [@voidly/pay-mcp](https://www.npmjs.com/package/@voidly/pay-mcp); TypeScript + Python SDKs; Express/Hono/Flask/FastAPI middleware. Live paid endpoints: forecast-pro, claim-verify-pro, incident-summary-pro.
 - [Satoshi Facilitator](https://bitcoinsapi.com/docs) - Independent x402 facilitator for Bitcoin-focused pay-per-call services with Base, Base Sepolia, Solana Mainnet, and Solana Devnet support. [Supported networks](https://facilitator.bitcoinsapi.com/supported)
 - [Floe](https://floelabs.xyz) - Credit and payments for AI agent developers. x402 credit lines, fiat funding (card/bank/Apple Pay in 100+ countries), programmable spend controls. No crypto required. 3,000+ working capital lines issued, zero defaults. [npm: floe-agent](https://npmjs.com/package/floe-agent) | [Docs](https://floe-labs.gitbook.io/docs) | [MCP](https://github.com/Floe-Labs/floe-mcp-server)
+- [GoPlausible](https://facilitator.goplausible.xyz) - Official Algorand facilitator, built with the Algorand Foundation. Mainnet and testnet, USDC ASA settlement, fee abstraction so payers need no ALGO for gas. Bazaar discovery at [/discovery/resources](https://facilitator.goplausible.xyz/discovery/resources). [Supported networks](https://facilitator.goplausible.xyz/supported)
 - [AlgoVoi](https://api1.ilovechicken.co.uk/.well-known/agent.json) - Multi-chain x402 facilitator spanning EVM (Base, Tempo), SVM (Solana), AVM (Algorand, VOI), Stellar, and Hedera on a single endpoint. Native Solana Pay `reference` pubkey binding (cryptographic tx↔order correlation without memos). Also implements MPP and AP2 at the same URL. [Open-source MCP adapter](https://github.com/chopmob-cloud/AlgoVoi-Platform-Adapters).
 - [x402-saas](https://x402-saas.surge.sh) - Hosted facilitator + zero-SDK onboarding proxy on Base. SIWE auth, slug-routed multi-tenant data plane, 1% of routed USDC volume. MIT-licensed self-host alternative at [x402-kit](https://github.com/kite-builds-erik/x402-kit). Live demo at [`/__x402/health`](https://x402-saas.onrender.com/__x402/health).
 - [Primer](https://x402.primer.systems) - Free x402 facilitator supporting Base and SKALE Base networks, with full ERC-20 support. v1 and v2 x402 both accepted. Batch settlement enabled. [Documentation](https://docs.primer.systems).
